@@ -5,15 +5,18 @@
   "files": [
     {
       "source": "prompts/planner_system_message_m.py",
-      "sha256": "b47c36158334b3a1178ed08374f709d66012abb84142fbbf24032b15a9c45a6f"
+      "sha256": "b47c36158334b3a1178ed08374f709d66012abb84142fbbf24032b15a9c45a6f",
+      "local_path": "malmm/prompts/planner.py"
     },
     {
       "source": "prompts/engineer_system_message_m.py",
-      "sha256": "2e41f0c3cbbcb13a589e39983a1178e604419af45399c53231ca8f86162d7b5b"
+      "sha256": "2e41f0c3cbbcb13a589e39983a1178e604419af45399c53231ca8f86162d7b5b",
+      "local_path": "malmm/prompts/coder.py"
     },
     {
       "source": "prompts/task_prompt_m.py",
-      "sha256": "1c0db302ab06d99f9ad311861214873c6ce95b50906d0558cc20f8cf8ca4ccdd"
+      "sha256": "1c0db302ab06d99f9ad311861214873c6ce95b50906d0558cc20f8cf8ca4ccdd",
+      "local_path": "malmm/prompts/task.py"
     },
     {
       "source": "main_autogen_multi_agent _main.py",

@@ -1,16 +1,18 @@
 """Original planner, coder, and task prompts."""
 
-from .engineer_system_message_m import ENGINEER_SYSTEM_MESSAGE
-from .planner_system_message_m import PLANNER_SYSTEM_MESSAGE
-from .task_prompt_m import TASK_PROMPT
+from .coder import CODER_PROMPT
+from .planner import PLANNER_PROMPT
+from .task import TASK_PROMPT
+
+__all__ = ["CODER_PROMPT", "PLANNER_PROMPT", "TASK_PROMPT", "format_task_prompt"]
 
 
-def task_prompt(command, position, orientation, state):
+def format_task_prompt(instruction: str, position, orientation, scene: str) -> str:
     values = {
-        "[INSERT TASK]": command,
+        "[INSERT TASK]": instruction,
         "[INSERT EE POSITION]": str(position),
         "[INSERT EE ORIENTATION]": str(orientation),
-        "[STATE]": state,
+        "[STATE]": scene,
     }
     prompt = TASK_PROMPT
     for token, value in values.items():

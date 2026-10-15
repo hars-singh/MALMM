@@ -22,7 +22,7 @@ python -m pip install -e .
 cp .env.example .env
 ```
 
-Install this package in the environment where PyRep and RLBench are available. The agent implementation uses the [AutoGen 0.2 API](https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/conversable_agent/), pinned in `pyproject.toml`.
+The agent implementation uses the [AutoGen 0.2 API](https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/conversable_agent/), pinned in `pyproject.toml`.
 
 Set the model name, endpoint, and API key in `.env`. The example connects to a local OpenAI-compatible server on port 8000. For a hosted provider, supply its model and key; omit `MALMM_BASE_URL` to use the client's default endpoint. Existing shell environment variables take precedence over `.env`.
 
@@ -45,11 +45,12 @@ Generated Python runs in the local process with the robot API, as in the origina
 | Path | Purpose |
 | --- | --- |
 | `malmm/agents.py` | Planner, coder, executor agent, and supervisor routing |
-| `malmm/execution.py` | Python execution and scene feedback |
-| `malmm/environment.py` | RLBench lifecycle and manipulation primitives |
-| `malmm/prompts/` | Original planner, coder, and task prompts |
+| `malmm/executor.py` | Python execution and scene feedback |
+| `malmm/robot.py` | RLBench lifecycle, scene descriptions, and manipulation primitives |
+| `malmm/runner.py` | Independent episodes, conversation histories, and outcomes |
+| `malmm/prompts/{planner,coder,task}.py` | Original prompt text, organized by role |
 | `malmm/task_objects.json` | Original object mappings, labels, and colors |
-| `malmm/cli.py` | Model configuration, episodes, and results |
+| `malmm/cli.py` | Command-line options and model configuration |
 
 The method is extracted from the saved `Desktop/main_code` project, using its March 5, 2025 multi-agent entry point. `SOURCE.json` records source file hashes. The original prompts and task mappings are preserved. The refactor adds explicit simulator startup/shutdown, configurable tasks and endpoints, independent episode histories, and reliable execution-state feedback. Simulation, models, datasets, experiment outputs, baselines, and training code are kept outside this repository.
 
@@ -58,6 +59,8 @@ The method is extracted from the saved `Desktop/main_code` project, using its Ma
 ```bash
 python -m pip install -e '.[dev]'
 python -m pytest
+ruff check .
+ruff format --check .
 ```
 
 The checks exercise agent routing, robot-code execution, error feedback, prompt formatting, and configuration without a model server or simulator. Full RLBench runs require the external simulator setup.
