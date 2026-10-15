@@ -1,0 +1,666 @@
+{
+  "tasks": {
+    "place_shape_in_shape_sorter": {
+      "cylinder": "cylinder",
+      "triangular prism": "triangular_prism",
+      "moon": "moon_visual",
+      "star": "star_visual",
+      "cube": "cube",
+      "moon drop point": "moon_drop_point",
+      "cube drop point": "cube_drop_point",
+      "cylinder drop point": "cylinder_drop_point",
+      "triangular prism drop point": "triangular_prism_drop_point",
+      "star drop point": "star_drop_point"
+    },
+    "stack_cups": {
+      "cup 1": "cup1",
+      "cup 2": "cup2",
+      "cup 3": "cup3"
+    },
+    "close_laptop_lid": {
+      "laptop holder": "laptop_holder",
+      "base visual": "base_visual",
+      "lid visual": "lid_visual"
+    },
+    "put_money_in_safe": {
+      "money": "dollar_stack",
+      "safe structure": "safe_body",
+      "placement area for bottom drawer": "success_detector0",
+      "placement area for middle drawer": "success_detector1",
+      "placement area for top drawer": "success_detector2"
+    },
+    "put_item_in_drawer": {
+      "item": "item",
+      "bottom drawer handle": "waypoint_anchor_bottom",
+      "middle drawer handle": "waypoint_anchor_middle",
+      "top drawer handle": "waypoint_anchor_top"
+    },
+    "put_groceries_in_cupboard": {
+      "coffee": "coffee",
+      "crackers": "crackers",
+      "mustard": "mustard_visual",
+      "soup": "soup_visual",
+      "spam": "spam_visual",
+      "strawberry jello": "strawberry_jello_visual",
+      "sugar": "sugar_visual",
+      "tuna": "tuna_visual",
+      "chocolate jello": "chocolate_jello_visual",
+      "placement in cupboard": "success"
+    },
+    "sweep_to_dustpan_of_size": {
+      "placement area  on short dustpan": "success_short",
+      "placement area on tall dustpan": "success_tall",
+      "broom": "sweep_to_dustpan_broom_visual",
+      "dirt particle 1": "dirt0",
+      "dirt particle 2": "dirt1",
+      "dirt particle 3": "dirt2",
+      "dirt particle 4": "dirt3",
+      "dirt particle 5": "dirt4",
+      "holding point of broom": "waypoint1"
+    },
+    "place_wine_at_rack_location": {
+      "placement area of middle rack": "success_middle",
+      "placement area of left rack": "success_left",
+      "placement area of right rack": "success_right",
+      "wine bottle": "wine_bottle_visual",
+      "top part of rack": "rack_top",
+      "bottom part of rack": "rack_bottom"
+    },
+    "place_cups": {
+      "cup 1": "mug_visual0",
+      "cup 2": "mug_visual1",
+      "cup 3": "mug_visual2",
+      "cup 4": "mug_visual3",
+      "cup holder 1": "place_cups_holder_spoke1",
+      "cup holder 2": "place_cups_holder_spoke2",
+      "cup holder 3": "place_cups_holder_spoke3",
+      "cup holder 4": "place_cups_holder_spoke0",
+      "cup holder structure": "place_cups_holder_base"
+    },
+    "turn_tap": {
+      "left tap": "tap_left_visual",
+      "right tap": "tap_right_visual",
+      "whole tap structure": "tap_main_visual"
+    },
+    "insert_onto_square_peg": {
+      "ring": "square_ring",
+      "flat base for spokes": "square_base",
+      "spoke 1": "pillar0",
+      "spoke 2": "pillar1",
+      "spoke 3": "pillar2"
+    },
+    "close_jar": {
+      "jar lid": "jar_lid0",
+      "jar 1": "jar0",
+      "jar 2": "jar1",
+      "placement area of jar lid": "success"
+    },
+    "meat_off_grill": {
+      "grill structure": "grill_visual",
+      "chicken": "chicken",
+      "steak": "steak",
+      "position where to put the grasped meat": "success"
+    },
+    "push_buttons": {
+      "button 1": "target_button_wrap0",
+      "button 2": "target_button_wrap1",
+      "button 3": "target_button_wrap2",
+      "button joint 1": "target_button_joint0",
+      "button joint 2": "target_button_joint1",
+      "button joint 3": "target_button_joint2"
+    },
+    "slide_block_to_color_target": {
+      "block": "block",
+      "placement area of target 1": "success1",
+      "placement area of target 2": "success2",
+      "placement area of target 3": "success3"
+    },
+    "stack_blocks": {
+      "block 1": "stack_blocks_target0",
+      "block 2": "stack_blocks_target1",
+      "block 3": "stack_blocks_target2",
+      "block 4": "stack_blocks_target3",
+      "distractor block 1": "stack_blocks_distractor0",
+      "distractor block 2": "stack_blocks_distractor1",
+      "distractor block 3": "stack_blocks_distractor2",
+      "distractor block 4": "stack_blocks_distractor3",
+      "Target block to stack blocks on top of each other (blocks need to be placed at top surface of this block, which is it's height+center z position)": "stack_blocks_target_plane"
+    },
+    "light_bulb_in": {
+      "bulb 1": "light_bulb0",
+      "bulb 2": "light_bulb1",
+      "lamp screw": "lamp_screw"
+    },
+    "open_drawer": {
+      "bottom drawer handle": "waypoint_anchor_bottom",
+      "middle drawer handle": "waypoint_anchor_middle",
+      "top drawer handle": "waypoint_anchor_top"
+    },
+    "reach_and_drag": {
+      "cube": "cube",
+      "distractor1": "distractor1",
+      "distractor2": "distractor2",
+      "distractor3": "distractor3",
+      "stick": "stick",
+      "target area ": "target0",
+      "placement for success": "success0"
+    },
+    "take_umbrella_out_of_umbrella_stand": {
+      "umbrella": "umbrella",
+      "stand": "stand"
+    },
+    "close_box": {
+      "box lid": "box_lid",
+      "box joint": "box_joint"
+    },
+    "open_box": {
+      "box lid": "box_lid",
+      "box joint": "box_joint"
+    },
+    "put_objects_in_container": {
+      "can": "master_chef_can_visual",
+      "tennis ball": "tennis_ball_visual",
+      "mustard bottle": "mustard_bottle_visual",
+      "rubiks cube": "rubiks_cube_visual",
+      "container": "container_detector"
+    },
+    "open_jar": {
+      "jar lid": "jar_lid",
+      "jar": "jar",
+      "cuboid region to avoid placing jar lid": "success"
+    },
+    "open_wine_bottle": {
+      "bottle": "bottle_visual",
+      "cap": "cap"
+    },
+    "pick_and_lift": {
+      "block": "pick_and_lift_target",
+      "target area": "success_visual"
+    },
+    "pick_up_cup": {
+      "cup 1": "cup1",
+      "cup 2": "cup2"
+    },
+    "play_jenga": {
+      "Jenga Tower": "original_detector",
+      "Jenga Block": "target_cuboid"
+    },
+    "put_knife_on_chopping_board": {
+      "knife": "knife",
+      "knife holder": "knife_block_visual",
+      "chopping board": "chopping_board"
+    },
+    "slide_block_to_target": {
+      "block": "block",
+      "target": "success"
+    },
+    "lamp_on": {
+      "target button ": "target_button_wrap"
+    },
+    "put_rubbish_in_bin": {
+      "rubbish": "rubbish",
+      "bin": "bin",
+      "tommato 1": "tommato1",
+      "tommato 2": "tommato2"
+    },
+    "change_channel": {
+      "tv": "tv_frame",
+      "button": "tv_remote_button"
+    },
+    "take_plate_off_colored_dish_rack": {
+      "plate": "plate",
+      "dish rack": "dish_rack",
+      "placement area for plate": "success_target"
+    },
+    "water_plants": {
+      "waterer": "waterer",
+      "plant pot": "base_visual",
+      "place to water": "success"
+    },
+    "wipe_desk": {
+      "sponge": "sponge",
+      "dirt_boundary": "dirt_boundary"
+    },
+    "straighten_rope": {
+      "rope head": "head",
+      "rope tail": "Cylinder16",
+      "success head": "success_head",
+      "success tail": "success_tail"
+    },
+    "basketball_in_hoop": {
+      "ball": "ball",
+      "drop point of the ball over the hoop ": "waypoint3",
+      "success": "success"
+    },
+    "block_pyramid": {
+      "block 1": "block_pyramid_block0",
+      "block 2": "block_pyramid_block1",
+      "block 3": "block_pyramid_block2",
+      "block 4": "block_pyramid_block3",
+      "block 5": "block_pyramid_block4",
+      "block 6": "block_pyramid_block5",
+      "Target Plane to stack blocks on top of each other on pyramid": "block_pyramid_plane"
+    },
+    "empty_container": {
+      "item 1": "Shape",
+      "item 2": "Shape1",
+      "item 3": "Shape3",
+      "conatainer 1": "small_container0",
+      "conatainer 2": "small_container1",
+      "large container": "large_container"
+    }
+  },
+  "labels": {
+    "place_shape_in_shape_sorter": {
+      "cylinder": "cylinder",
+      "triangular_prism": "triangular prism",
+      "moon_visual": "moon",
+      "star_visual": "star",
+      "cube": "cube",
+      "moon_drop_point": "moon drop point",
+      "cube_drop_point": "cube drop point",
+      "cylinder_drop_point": "cylinder drop point",
+      "triangular_prism_drop_point": "triangular prism drop point",
+      "star_drop_point": "star drop point"
+    },
+    "close_laptop_lid": {
+      "laptop_holder": "laptop holder",
+      "base_visual": "base visual",
+      "lid_visual": "lid visual"
+    },
+    "stack_cups": {
+      "cup1": "cup 1",
+      "cup2": "cup 2",
+      "cup3": "cup 3"
+    },
+    "put_money_in_safe": {
+      "dollar_stack": "money",
+      "safe_body": "safe structure",
+      "success_detector0": "placement area for bottom drawer",
+      "success_detector1": "placement area for middle drawer",
+      "success_detector2": "placement area for top drawer"
+    },
+    "put_item_in_drawer": {
+      "item": "item",
+      "waypoint_anchor_bottom": "bottom drawer handle",
+      "waypoint_anchor_middle": "middle drawer handle",
+      "waypoint_anchor_top": "top drawer handle"
+    },
+    "put_groceries_in_cupboard": {
+      "coffee": "coffee",
+      "crackers": "crackers",
+      "mustard_visual": "mustard",
+      "soup_visual": "soup",
+      "spam_visual": "spam",
+      "strawberry_jello_visual": "strawberry jello",
+      "sugar_visual": "sugar",
+      "tuna_visual": "tuna",
+      "chocolate_jello_visual": "chocolate jello",
+      "success": "placement in cupboard"
+    },
+    "sweep_to_dustpan_of_size": {
+      "success_short": "placement area  on short dustpan",
+      "success_tall": "placement area on tall dustpan",
+      "sweep_to_dustpan_broom_visual": "broom",
+      "dirt0": "dirt particle 1",
+      "dirt1": "dirt particle 2",
+      "dirt2": "dirt particle 3",
+      "dirt3": "dirt particle 4",
+      "dirt4": "dirt particle 5",
+      "waypoint1": "holding point of broom"
+    },
+    "place_wine_at_rack_location": {
+      "success_middle": "placement area of middle rack",
+      "success_left": "placement area of left rack",
+      "success_right": "placement area of right rack",
+      "wine_bottle_visual": "wine bottle",
+      "rack_top": "top part of rack",
+      "rack_bottom": "bottom part of rack"
+    },
+    "place_cups": {
+      "mug_visual0": "cup 1",
+      "mug_visual1": "cup 2",
+      "mug_visual2": "cup 3",
+      "mug_visual3": "cup 4",
+      "place_cups_holder_spoke1": "cup holder 1",
+      "place_cups_holder_spoke2": "cup holder 2",
+      "place_cups_holder_spoke3": "cup holder 3",
+      "place_cups_holder_spoke0": "cup holder 4",
+      "place_cups_holder_base": "cup holder structure"
+    },
+    "turn_tap": {
+      "tap_left_visual": "left tap",
+      "tap_right_visual": "right tap",
+      "tap_main_visual": "whole tap structure"
+    },
+    "insert_onto_square_peg": {
+      "square_ring": "ring",
+      "square_base": "flat base for spokes",
+      "pillar0": "spoke 1",
+      "pillar1": "spoke 2",
+      "pillar2": "spoke 3"
+    },
+    "close_jar": {
+      "jar_lid0": "jar lid",
+      "jar0": "jar 1",
+      "jar1": "jar 2",
+      "success": "placement area of jar lid"
+    },
+    "meat_off_grill": {
+      "grill_visual": "grill structure",
+      "chicken": "chicken",
+      "steak": "steak",
+      "success": "position where to put the grasped meat"
+    },
+    "push_buttons": {
+      "target_button_wrap0": "button 1",
+      "target_button_wrap1": "button 2",
+      "target_button_wrap2": "button 3",
+      "target_button_joint0": "button joint 1",
+      "target_button_joint1": "button joint 2",
+      "target_button_joint2": "button joint 3"
+    },
+    "slide_block_to_color_target": {
+      "block": "block",
+      "success1": "placement area of target 1",
+      "success2": "placement area of target 2",
+      "success3": "placement area of target 3"
+    },
+    "stack_blocks": {
+      "stack_blocks_target0": "block 1",
+      "stack_blocks_target1": "block 2",
+      "stack_blocks_target2": "block 3",
+      "stack_blocks_target3": "block 4",
+      "stack_blocks_distractor0": "distractor block 1",
+      "stack_blocks_distractor1": "distractor block 2",
+      "stack_blocks_distractor2": "distractor block 3",
+      "stack_blocks_distractor3": "distractor block 4",
+      "stack_blocks_target_plane": "Target block to stack blocks on top of each other (blocks need to be placed at top surface of this block, which is it's height+center z position)"
+    },
+    "light_bulb_in": {
+      "light_bulb0": "bulb 1",
+      "light_bulb1": "bulb 2",
+      "lamp_screw": "lamp screw"
+    },
+    "open_drawer": {
+      "waypoint_anchor_bottom": "bottom drawer handle",
+      "waypoint_anchor_middle": "middle drawer handle",
+      "waypoint_anchor_top": "top drawer handle"
+    },
+    "reach_and_drag": {
+      "cube": "cube",
+      "distractor1": "distractor1",
+      "distractor2": "distractor2",
+      "distractor3": "distractor3",
+      "stick": "stick",
+      "target0": "target area ",
+      "success0": "placement for success"
+    },
+    "take_umbrella_out_of_umbrella_stand": {
+      "umbrella": "umbrella",
+      "stand": "stand"
+    },
+    "close_box": {
+      "box_lid": "box lid",
+      "box_joint": "box joint"
+    },
+    "open_box": {
+      "box_lid": "box lid",
+      "box_joint": "box joint"
+    },
+    "put_objects_in_container": {
+      "master_chef_can_visual": "can",
+      "tennis_ball_visual": "tennis ball",
+      "mustard_bottle_visual": "mustard bottle",
+      "rubiks_cube_visual": "rubiks cube",
+      "container_detector": "container"
+    },
+    "open_jar": {
+      "jar_lid": "jar lid",
+      "jar": "jar",
+      "success": "cuboid region to avoid placing jar lid"
+    },
+    "open_wine_bottle": {
+      "bottle_visual": "bottle",
+      "cap": "cap"
+    },
+    "pick_and_lift": {
+      "pick_and_lift_target": "block",
+      "success_visual": "target area"
+    },
+    "pick_up_cup": {
+      "cup1": "cup 1",
+      "cup2": "cup 2"
+    },
+    "play_jenga": {
+      "original_detector": "Jenga Tower",
+      "target_cuboid": "Jenga Block"
+    },
+    "put_knife_on_chopping_board": {
+      "knife": "knife",
+      "knife_block_visual": "knife holder",
+      "chopping_board": "chopping board"
+    },
+    "slide_block_to_target": {
+      "block": "block",
+      "success": "target"
+    },
+    "lamp_on": {
+      "target_button_wrap": "target button"
+    },
+    "put_rubbish_in_bin": {
+      "rubbish": "rubbish",
+      "bin": "bin",
+      "tommato1": "tommato 1",
+      "tommato2": "tommato 2"
+    },
+    "change_channel": {
+      "tv_frame": "tv",
+      "tv_remote_button": "button"
+    },
+    "take_plate_off_colored_dish_rack": {
+      "plate": "plate",
+      "dish_rack": "dish rack",
+      "success_target": "placement area for plate"
+    },
+    "water_plants": {
+      "waterer": "waterer",
+      "base_visual": "plant pot",
+      "success": "place to water"
+    },
+    "wipe_desk": {
+      "dirt_boundary": "dirt_boundary",
+      "sponge": "sponge"
+    },
+    "straighten_rope": {
+      "head": "rope head",
+      "Cylinder16": "rope tail",
+      "success_head": "success head",
+      "success_tail": "success tail"
+    },
+    "basketball_in_hoop": {
+      "ball": "ball",
+      "waypoint3": "drop point of the ball over the hoop",
+      "success": "success"
+    },
+    "block_pyramid": {
+      "block_pyramid_block0": "block 1",
+      "block_pyramid_block1": "block 2",
+      "block_pyramid_block2": "block 3",
+      "block_pyramid_block3": "block 4",
+      "block_pyramid_block4": "block 5",
+      "block_pyramid_block5": "block 6",
+      "block_pyramid_plane": "Target Plane to stack blocks on top of each other on pyramid"
+    },
+    "empty_container": {
+      "Shape": "item 1",
+      "Shape1": "item 2",
+      "Shape3": "item 3",
+      "small_container0": "conatainer 1",
+      "small_container1": "conatainer 2",
+      "large_container": "large container"
+    }
+  },
+  "colors": [
+    {
+      "rgb": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "name": "red"
+    },
+    {
+      "rgb": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "name": "lime"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "name": "maroon"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.5,
+        0.0
+      ],
+      "name": "green"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "blue"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.0,
+        0.5
+      ],
+      "name": "navy"
+    },
+    {
+      "rgb": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "name": "yellow"
+    },
+    {
+      "rgb": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "name": "cyan"
+    },
+    {
+      "rgb": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "name": "magenta"
+    },
+    {
+      "rgb": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "name": "silver"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "name": "gray"
+    },
+    {
+      "rgb": [
+        1.0,
+        0.5,
+        0.0
+      ],
+      "name": "orange"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "name": "olive"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "name": "purple"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "name": "teal"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "name": "azure"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.0,
+        1.0
+      ],
+      "name": "violet"
+    },
+    {
+      "rgb": [
+        1.0,
+        0.0,
+        0.5
+      ],
+      "name": "rose"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "black"
+    },
+    {
+      "rgb": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "name": "white"
+    }
+  ]
+}

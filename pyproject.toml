@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "malmm"
+version = "0.1.0"
+description = "Multi-Agent Large Language Models for Zero-Shot Robotic Manipulation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pyautogen==0.2.35",
+    "openai>=1.17,<2",
+    "numpy>=1.23,<2",
+    "python-dotenv>=1,<2",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7,<9"]
+
+[project.scripts]
+malmm = "malmm.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["malmm*"]
+
+[tool.setuptools.package-data]
+malmm = ["task_objects.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
