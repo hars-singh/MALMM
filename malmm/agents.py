@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 
 import autogen
+from autogen.agentchat.utils import gather_usage_summary
 
 from .executor import execute_robot_code
 from .prompts import CODER_PROMPT, PLANNER_PROMPT
@@ -51,6 +52,19 @@ class AgentTeam:
 
     def run(self, prompt: str):
         return self.coordinator.initiate_chat(self.supervisor, message=prompt)
+
+    def token_usage(self) -> dict:
+        usage = gather_usage_summary(
+            [self.coordinator, self.planner, self.coder, self.executor, self.supervisor]
+        )["usage_excluding_cached_inference"]
+        return {
+            model: {
+                name: values.get(name, 0)
+                for name in ("prompt_tokens", "completion_tokens", "total_tokens")
+            }
+            for model, values in usage.items()
+            if model != "total_cost"
+        }
 
 
 def create_agent_team(robot, llm_config: dict | bool, max_rounds: int = 100) -> AgentTeam:

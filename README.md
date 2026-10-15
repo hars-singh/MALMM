@@ -50,6 +50,22 @@ The task list contains 40 saved scene-object mappings. Tasks and scene names mus
 
 Generated Python runs in the local process with the robot API, as in the original method. It is not sandboxed.
 
+### Parallel evaluation
+
+Check all nine evaluation task scenes and two seeded resets per task with four simulator processes:
+
+```bash
+python -m malmm.evaluate --check-only --workers 4 --episodes 2
+```
+
+Run the same task set with a model:
+
+```bash
+python -m malmm.evaluate --workers 4 --episodes 2 --model openai/gpt-6-luna --env-file .env
+```
+
+Each task runs in a fresh process with its own output directory and a default 30-minute timeout. JSON and CSV summaries distinguish completed task failures from API errors, timeouts, and missing episodes. Per-episode results include token usage across the agents. The `slide_block_to_target` task is the saved code's mapping for the paper's “Put Block” column. Two trials per task form a pilot evaluation, not the paper's 25-trial protocol.
+
 ## Code
 
 | Path | Purpose |

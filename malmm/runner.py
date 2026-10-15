@@ -66,6 +66,7 @@ def run_episodes(
                 outcome.update(success=False, error_type=type(error).__name__)
                 raise
             finally:
+                outcome["token_usage"] = team.token_usage()
                 results["episodes"].append(outcome)
                 _write_json(
                     run_dir / f"episode_{episode:03d}.json",

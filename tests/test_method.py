@@ -64,6 +64,7 @@ def test_supervisor_routing_and_autogen_execution_path():
 
     robot = FakeRobot()
     team = create_agent_team(robot, llm_config=False)
+    assert team.token_usage() == {}
     transitions = team.conversation.allowed_speaker_transitions_dict
     assert transitions[team.coordinator] == [team.planner]
     assert transitions[team.planner] == [team.coder]
@@ -169,7 +170,9 @@ def test_episode_runner_saves_results_and_closes_simulator(
                 raise RuntimeError("model unavailable")
             robot.task_completed()
 
-        team = SimpleNamespace(conversation=SimpleNamespace(messages=messages), run=run)
+        team = SimpleNamespace(
+            conversation=SimpleNamespace(messages=messages), run=run, token_usage=lambda: {}
+        )
         teams.append(team)
         return team
 
