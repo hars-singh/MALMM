@@ -18,13 +18,23 @@ source .venv/bin/activate
 In this environment, install CoppeliaSim, PyRep, and RLBench following the [RLBench installation instructions](https://github.com/stepjam/RLBench#install). Then install MALMM:
 
 ```bash
-python -m pip install -e .
+python -m pip install -e '.[simulation]'
 cp .env.example .env
 ```
 
 The agent implementation uses the [AutoGen 0.2 API](https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/conversable_agent/), pinned in `pyproject.toml`.
 
 Set the model name, endpoint, and API key in `.env`. The example connects to a local OpenAI-compatible server on port 8000. For a hosted provider, supply its model and key; omit `MALMM_BASE_URL` to use the client's default endpoint. Existing shell environment variables take precedence over `.env`.
+
+For OpenRouter, set `MALMM_BASE_URL=https://openrouter.ai/api/v1` and use its full model ID, such as `openai/gpt-4-turbo`. Set `MALMM_API_KEY` to an OpenRouter key. A valid key can still require credits or be subject to provider rate limits.
+
+Before launching the simulator, configure its location:
+
+```bash
+export COPPELIASIM_ROOT=/path/to/CoppeliaSim
+export LD_LIBRARY_PATH="$COPPELIASIM_ROOT:${LD_LIBRARY_PATH:-}"
+export QT_QPA_PLATFORM_PLUGIN_PATH="$COPPELIASIM_ROOT"
+```
 
 ## Run
 
@@ -53,6 +63,8 @@ Generated Python runs in the local process with the robot API, as in the origina
 | `malmm/cli.py` | Command-line options and model configuration |
 
 The method is extracted from the saved `Desktop/main_code` project, using its March 5, 2025 multi-agent entry point. `SOURCE.json` records source file hashes. The original prompts and task mappings are preserved. The refactor adds explicit simulator startup/shutdown, configurable tasks and endpoints, independent episode histories, and reliable execution-state feedback. Simulation, models, datasets, experiment outputs, baselines, and training code are kept outside this repository.
+
+Motion planning follows RLBench's treatment of existing scene contacts: objects touching the arm at the starting pose are temporarily excluded from planning and restored before execution. Robot shapes, held objects, and other obstacles are not disabled by this adjustment.
 
 ## Checks
 

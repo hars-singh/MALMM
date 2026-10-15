@@ -17,6 +17,14 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7,<9", "ruff>=0.9,<1"]
+simulation = [
+    "cffi>=1.15",
+    "Pillow>=9",
+    "pyquaternion>=0.9.9",
+    "natsort>=8",
+    "scipy>=1.9",
+    "opencv-python-headless>=4.8,<4.12",
+]
 
 [project.scripts]
 malmm = "malmm.cli:main"

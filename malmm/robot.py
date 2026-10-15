@@ -108,8 +108,29 @@ class RLBenchRobot:
         return tip.get_position(), tip.get_orientation()
 
     def execute_trajectory(self, position: list[float], orientation: float) -> None:
+        from pyrep.const import ObjectType
+
+        # Match RLBench's handling of contacts at the starting pose.
+        contacts = []
+        if self.arm.check_arm_collision():
+            robot_shapes = self.arm.get_objects_in_tree(object_type=ObjectType.SHAPE)
+            held_objects = self.gripper.get_grasped_objects()
+            contacts = [
+                shape
+                for shape in self.simulator.get_objects_in_tree(object_type=ObjectType.SHAPE)
+                if shape not in robot_shapes
+                and shape not in held_objects
+                and shape.is_collidable()
+                and self.arm.check_arm_collision(shape)
+            ]
         # Original top-down controller rotates only around the z axis.
-        path = self.arm.get_path(position=position, euler=[3.14, 0, -orientation])
+        try:
+            for shape in contacts:
+                shape.set_collidable(False)
+            path = self.arm.get_path(position=position, euler=[3.14, 0, -orientation])
+        finally:
+            for shape in contacts:
+                shape.set_collidable(True)
         done = False
         while not done:
             done = path.step()

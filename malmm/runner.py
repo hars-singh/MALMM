@@ -62,7 +62,7 @@ def run_episodes(
                     success=robot.is_successful(),
                     stopped_by_agent=robot.completion_requested,
                 )
-            except Exception as error:
+            except (Exception, KeyboardInterrupt) as error:
                 outcome.update(success=False, error_type=type(error).__name__)
                 raise
             finally:
