@@ -22,7 +22,8 @@ def create_parser() -> argparse.ArgumentParser:
     result.add_argument("--task", choices=TASK_NAMES, default="put_rubbish_in_bin")
     result.add_argument("--episodes", type=positive_int, default=25)
     result.add_argument("--seed", type=int, default=0)
-    result.add_argument("--max-rounds", type=positive_int, default=100)
+    result.add_argument("--max-rounds", type=positive_int, default=300)
+    result.add_argument("--max-actions", type=positive_int, default=60)
     result.add_argument("--headless", action="store_true")
     result.add_argument("--env-file", type=Path, default=Path(".env"))
     result.add_argument("--model", help="Overrides MALMM_MODEL")
@@ -69,6 +70,7 @@ def main(argv: list[str] | None = None) -> int:
         episodes=args.episodes,
         seed=args.seed,
         max_rounds=args.max_rounds,
+        max_actions=args.max_actions,
         headless=args.headless,
         output_dir=args.output_dir,
     )

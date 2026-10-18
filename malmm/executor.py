@@ -16,6 +16,8 @@ def execute_robot_code(code: str, robot) -> tuple[int, str, None]:
         # Failed actions still need fresh scene feedback for the next plan.
         try:
             robot.detect_object()
+            if not robot.completion_requested and robot.is_successful():
+                robot.task_completed()
         except Exception as error:
             exit_code = 1
             print(f"State feedback error: {type(error).__name__}: {error}")

@@ -9,8 +9,8 @@ from .executor import execute_robot_code
 from .prompts import CODER_PROMPT, PLANNER_PROMPT
 
 
-def is_termination_message(message: dict) -> bool:
-    return "taskexec" in (message.get("content") or "").lower()
+def episode_finished(robot) -> bool:
+    return robot.completion_requested or robot.abort_reason is not None
 
 
 class ExecutorAgent(autogen.ConversableAgent):
@@ -22,7 +22,7 @@ class ExecutorAgent(autogen.ConversableAgent):
             human_input_mode="NEVER",
             code_execution_config={"last_n_messages": 1, "use_docker": False},
             default_auto_reply="Please continue. If everything is done, execute task_completed().",
-            is_termination_msg=is_termination_message,
+            is_termination_msg=lambda _: episode_finished(robot),
         )
         self.robot = robot
 
@@ -36,7 +36,7 @@ class ExecutorAgent(autogen.ConversableAgent):
                 return 1, "Use a Python code block for robot actions."
             exit_code, output, _ = self.run_code(code)
             logs.append(output)
-            if exit_code or "taskexec" in output.lower():
+            if exit_code or episode_finished(self.robot):
                 return exit_code, "\n".join(logs)
         return 0, "\n".join(logs)
 
@@ -67,11 +67,11 @@ class AgentTeam:
         }
 
 
-def create_agent_team(robot, llm_config: dict | bool, max_rounds: int = 100) -> AgentTeam:
+def create_agent_team(robot, llm_config: dict | bool, max_rounds: int = 300) -> AgentTeam:
     common = dict(
         llm_config=llm_config,
         human_input_mode="NEVER",
-        is_termination_msg=is_termination_message,
+        is_termination_msg=lambda _: episode_finished(robot),
     )
     coordinator = autogen.ConversableAgent(
         name="Coordinator",
@@ -110,6 +110,6 @@ def create_agent_team(robot, llm_config: dict | bool, max_rounds: int = 100) -> 
         groupchat=conversation,
         llm_config=llm_config,
         human_input_mode="NEVER",
-        is_termination_msg=is_termination_message,
+        is_termination_msg=lambda _: episode_finished(robot),
     )
     return AgentTeam(coordinator, planner, coder, executor, supervisor, conversation)

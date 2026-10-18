@@ -44,7 +44,7 @@ python -m malmm --task put_rubbish_in_bin --episodes 1
 python -m malmm --task close_jar --episodes 25 --seed 0 --headless
 ```
 
-The `malmm` command is equivalent to `python -m malmm`. Use `--model`, `--base-url`, `--max-rounds`, and `--output-dir` to override run settings. Headless simulation still requires a working graphics/display setup; see the RLBench instructions.
+The `malmm` command is equivalent to `python -m malmm`. Use `--model`, `--base-url`, `--max-rounds`, `--max-actions`, and `--output-dir` to override run settings. Each episode permits 60 attempted robot actions and has a separate 300-message conversation cap by default. Headless simulation still requires a working graphics/display setup; see the RLBench instructions.
 
 The task list contains 40 saved scene-object mappings. Tasks and scene names must match the installed RLBench version; these mappings are not a claim that every task has been validated. Runs save conversation histories and episode outcomes under `outputs/<task>/<run>/`. Success comes from RLBench's task success condition, independently of the agent's completion message.
 
@@ -74,13 +74,15 @@ Each task runs in a fresh process with its own output directory and a default 30
 | `malmm/executor.py` | Python execution and scene feedback |
 | `malmm/robot.py` | RLBench lifecycle, scene descriptions, and manipulation primitives |
 | `malmm/runner.py` | Independent episodes, conversation histories, and outcomes |
-| `malmm/prompts/{planner,coder,task}.py` | Original prompt text, organized by role |
+| `malmm/prompts/{planner,coder,task}.py` | Role prompts and initial task formatting |
 | `malmm/task_objects.json` | Original object mappings, labels, and colors |
 | `malmm/cli.py` | Command-line options and model configuration |
 
-The method is extracted from the saved `Desktop/main_code` project, using its March 5, 2025 multi-agent entry point. `SOURCE.json` records source file hashes. The original prompts and task mappings are preserved. The refactor adds explicit simulator startup/shutdown, configurable tasks and endpoints, independent episode histories, and reliable execution-state feedback. Simulation, models, datasets, experiment outputs, baselines, and training code are kept outside this repository.
+The method is extracted from the saved `Desktop/main_code` project, using its March 5, 2025 multi-agent entry point. `SOURCE.json` records the original source file hashes. Scene-object mappings are preserved, with the tray-label spelling corrected; planner and coder prompts have been updated to describe the corrected robot interface. The refactor adds explicit simulator startup/shutdown, configurable tasks and endpoints, independent episode histories, and execution-state feedback. These controller and prompt changes mean new evaluations are not an exact reproduction of the original implementation. Simulation, models, datasets, experiment outputs, baselines, and training code are kept outside this repository.
 
-Motion planning follows RLBench's treatment of existing scene contacts: objects touching the arm at the starting pose are temporarily excluded from planning and restored before execution. Robot shapes, held objects, and other obstacles are not disabled by this adjustment.
+Positions, yaw, and bounding-box limits use world coordinates. The motion API passes yaw directly to the simulator. `execute_trajectory(position, yaw, interaction=True)` permits contact during grasp descent and initial lift, matching RLBench reference interaction waypoints. Transit and placement retain collision checking. Existing arm contacts and Empty Container's nonphysical sampling helper are temporarily excluded during planning; their collision flags are restored before execution, and contact physics remains enabled.
+
+Gripping follows the reference controller's full-close command and reports an unsuccessful sensor grasp as an error. A motion that stops more than 1.5 cm short reports an error, except for a contact approach with a graspable object already detected by the gripper sensor. That case reports the shortfall and detected objects; closing still verifies the requested target. Feedback includes the held-object bottom offset. Destination selection and placement assessment use the instruction and scene geometry; policy observations do not include internal target identities, per-item success detectors, or a task-success Boolean. Release poses account for that offset; physics settles for ten steps after opening. All motion steps run RLBench scene/task updates. Completion requires simulator success; Empty Container also requires a released gripper. Unsuccessful completion requests continue the episode. `abort_task(reason)` records an unsuccessful stop separately, and action-budget exhaustion also aborts. The executor automatically requests completion after a successful action when the task condition is satisfied. Episode records include action counts, abort reasons, and stopping reasons.
 
 ## Checks
 

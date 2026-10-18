@@ -109,7 +109,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--workers", type=positive_int, default=4)
     parser.add_argument("--model", default="openai/gpt-6-luna")
     parser.add_argument("--env-file", type=Path, default=Path(".env"))
-    parser.add_argument("--max-rounds", type=positive_int, default=100)
+    parser.add_argument("--max-rounds", type=positive_int, default=300)
+    parser.add_argument("--max-actions", type=positive_int, default=60)
     parser.add_argument(
         "--timeout", type=positive_int, default=1800, help="Seconds per task process"
     )
@@ -133,6 +134,8 @@ def main(argv: list[str] | None = None) -> int:
         "check_only": args.check_only,
         "workers": args.workers,
         "episodes_per_task": args.episodes,
+        "max_rounds": args.max_rounds,
+        "max_actions": args.max_actions,
         "tasks_requested": args.tasks,
         "tasks": {},
     }
@@ -168,6 +171,8 @@ def main(argv: list[str] | None = None) -> int:
                 str(args.env_file.resolve()),
                 "--max-rounds",
                 str(args.max_rounds),
+                "--max-actions",
+                str(args.max_actions),
                 "--headless",
                 "--output-dir",
                 str(directory),

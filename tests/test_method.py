@@ -13,6 +13,11 @@ class FakeRobot:
         self.actions = []
         self.position = [0, 0, 0]
         self.completion_requested = False
+        self.abort_reason = None
+        self.action_count = 0
+
+    def is_successful(self):
+        return self.completion_requested
 
     def execute_trajectory(self, position, orientation):
         self.position = position
@@ -91,6 +96,14 @@ def test_completion_stops_remaining_blocks():
     )
     assert status == 0 and "Taskexec" in output
     assert robot.completion_requested and not robot.actions
+
+
+def test_executor_detects_success_without_model_completion_request():
+    robot = FakeRobot()
+    robot.is_successful = lambda: True
+    status, output, _ = execute_robot_code("execute_trajectory([1, 2, 3], 0)", robot)
+    assert status == 0 and "Taskexec" in output
+    assert robot.completion_requested
 
 
 def test_prompt_contains_task_initial_pose_and_scene():

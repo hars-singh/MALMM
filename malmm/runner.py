@@ -27,7 +27,8 @@ def run_episodes(
     *,
     episodes: int = 25,
     seed: int = 0,
-    max_rounds: int = 100,
+    max_rounds: int = 300,
+    max_actions: int = 60,
     headless: bool = False,
     output_dir: Path = Path("outputs"),
 ) -> Path:
@@ -40,6 +41,7 @@ def run_episodes(
         "episodes_requested": episodes,
         "seed": seed,
         "max_rounds": max_rounds,
+        "max_actions": max_actions,
         "headless": headless,
     }
     results = {**settings, "episodes": []}
@@ -47,6 +49,7 @@ def run_episodes(
     _write_json(run_dir / "config.json", settings)
     _set_seed(seed)
     robot = RLBenchRobot(task_name, headless=headless)
+    robot.max_actions = max_actions
     try:
         for episode in range(episodes):
             episode_seed = seed + episode
@@ -61,6 +64,15 @@ def run_episodes(
                 outcome.update(
                     success=robot.is_successful(),
                     stopped_by_agent=robot.completion_requested,
+                    abort_reason=robot.abort_reason,
+                    actions=robot.action_count,
+                    stopping_reason=(
+                        "success"
+                        if robot.is_successful()
+                        else "aborted"
+                        if robot.abort_reason is not None
+                        else "message_limit"
+                    ),
                 )
             except (Exception, KeyboardInterrupt) as error:
                 outcome.update(success=False, error_type=type(error).__name__)
