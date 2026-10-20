@@ -8,6 +8,6 @@ __pycache__/
 .pytest_cache/
 build/
 dist/
-outputs/
+/outputs
 .cache/
 .DS_Store

@@ -13,10 +13,14 @@ def execute_robot_code(code: str, robot) -> tuple[int, str, None]:
         except Exception as error:
             exit_code = 1
             print(f"{type(error).__name__}: {error}")
+        robot.consecutive_errors = getattr(robot, "consecutive_errors", 0) + 1 if exit_code else 0
         # Failed actions still need fresh scene feedback for the next plan.
         try:
             robot.detect_object()
             if not robot.completion_requested and robot.is_successful():
+                robot.task_completed()
+            elif not robot.completion_requested and robot.consecutive_errors >= 5:
+                print("Five consecutive execution errors; stopping with task_completed().")
                 robot.task_completed()
         except Exception as error:
             exit_code = 1

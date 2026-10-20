@@ -71,6 +71,10 @@ def run_episodes(
                         if robot.is_successful()
                         else "aborted"
                         if robot.abort_reason is not None
+                        else "error_limit"
+                        if robot.completion_requested and robot.consecutive_errors >= 5
+                        else "agent_completion"
+                        if robot.completion_requested
                         else "message_limit"
                     ),
                 )

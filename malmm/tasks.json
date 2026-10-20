@@ -1,0 +1,224 @@
+{
+  "tasks": {
+    "basketball_in_hoop": {
+      "ball": "ball",
+      "rim": "basketball_rim"
+    },
+    "close_jar": {
+      "jar lid": "jar_lid0",
+      "jar 1": "jar0",
+      "jar 2": "jar1"
+    },
+    "empty_container": {
+      "item 1": "Shape",
+      "item 2": "Shape1",
+      "item 3": "Shape3",
+      "container 1": "small_container0",
+      "container 2": "small_container1",
+      "large container": "large_container"
+    },
+    "insert_onto_square_peg": {
+      "ring": "square_ring",
+      "flat base for spokes": "square_base",
+      "spoke 1": "pillar0",
+      "spoke 2": "pillar1",
+      "spoke 3": "pillar2"
+    },
+    "meat_off_grill": {
+      "grill structure": "grill_visual",
+      "chicken": "chicken",
+      "steak": "steak",
+      "meat placement area": "success"
+    },
+    "open_wine_bottle": {
+      "bottle": "bottle_visual",
+      "cap": "cap"
+    },
+    "slide_block_to_target": {
+      "block": "block",
+      "target": "success"
+    },
+    "put_rubbish_in_bin": {
+      "rubbish": "rubbish",
+      "bin": "bin",
+      "tommato 1": "tommato1",
+      "tommato 2": "tommato2"
+    },
+    "stack_blocks": {
+      "block 1": "stack_blocks_target0",
+      "block 2": "stack_blocks_target1",
+      "block 3": "stack_blocks_target2",
+      "block 4": "stack_blocks_target3",
+      "distractor block 1": "stack_blocks_distractor0",
+      "distractor block 2": "stack_blocks_distractor1",
+      "distractor block 3": "stack_blocks_distractor2",
+      "distractor block 4": "stack_blocks_distractor3",
+      "stacking target area": "stack_blocks_target_plane"
+    }
+  },
+  "instructions": {
+    "slide_block_to_target": "put the block to the target"
+  },
+  "colors": [
+    {
+      "rgb": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "name": "red"
+    },
+    {
+      "rgb": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "name": "lime"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.0,
+        0.0
+      ],
+      "name": "maroon"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.5,
+        0.0
+      ],
+      "name": "green"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "blue"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.0,
+        0.5
+      ],
+      "name": "navy"
+    },
+    {
+      "rgb": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "name": "yellow"
+    },
+    {
+      "rgb": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "name": "cyan"
+    },
+    {
+      "rgb": [
+        1.0,
+        0.0,
+        1.0
+      ],
+      "name": "magenta"
+    },
+    {
+      "rgb": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "name": "silver"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.5,
+        0.5
+      ],
+      "name": "gray"
+    },
+    {
+      "rgb": [
+        1.0,
+        0.5,
+        0.0
+      ],
+      "name": "orange"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "name": "olive"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "name": "purple"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "name": "teal"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.5,
+        1.0
+      ],
+      "name": "azure"
+    },
+    {
+      "rgb": [
+        0.5,
+        0.0,
+        1.0
+      ],
+      "name": "violet"
+    },
+    {
+      "rgb": [
+        1.0,
+        0.0,
+        0.5
+      ],
+      "name": "rose"
+    },
+    {
+      "rgb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "black"
+    },
+    {
+      "rgb": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "name": "white"
+    }
+  ]
+}

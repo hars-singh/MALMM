@@ -1,34 +1,35 @@
 # MALMM
 
-**Multi-Agent Large Language Models for Zero-Shot Robotic Manipulation**
+**Multi-Agent Large Language Models for Zero-Shot Robotics Manipulation**
 
-[Paper](https://arxiv.org/abs/2411.17636) · [Project](https://malmm1.github.io/)
+[Paper](https://arxiv.org/abs/2411.17636) · [Project page](https://malmm1.github.io/)
 
-MALMM uses a planner to break a manipulation instruction into steps, a coder to generate Python robot actions, and a supervisor to coordinate the agents. The executor runs each action in RLBench and returns object positions, orientations, dimensions, and gripper state for feedback and replanning.
+MALMM coordinates a Planner, Coder, and Supervisor to solve manipulation tasks
+in RLBench. The Planner reasons about the scene, the Coder generates robot actions,
+and the Executor returns updated simulator observations for the next step.
 
-## Setup
+This repository includes the prompts, simulator interface, nine task models, and
+one command-line evaluation script. No model training is required.
 
-Use Python 3.10 or 3.11. Create and activate an environment:
+## Installation
+
+### 1. Create a Python environment
+
+From the repository directory, using Python 3.10 or 3.11:
 
 ```bash
 python -m venv .venv
 source .venv/bin/activate
+python -m pip install -r requirements.txt
 ```
 
-In this environment, install CoppeliaSim, PyRep, and RLBench following the [RLBench installation instructions](https://github.com/stepjam/RLBench#install). Then install MALMM:
+### 2. Install the simulator
 
-```bash
-python -m pip install -e '.[simulation]'
-cp .env.example .env
-```
+Install **CoppeliaSim 4.1.0**, [PyRep](https://github.com/stepjam/PyRep), and
+[RLBench](https://github.com/stepjam/RLBench#install) following their installation
+instructions. Install the Python packages in the same environment created above.
 
-The agent implementation uses the [AutoGen 0.2 API](https://microsoft.github.io/autogen/0.2/docs/reference/agentchat/conversable_agent/), pinned in `pyproject.toml`.
-
-Set the model name, endpoint, and API key in `.env`. The example connects to a local OpenAI-compatible server on port 8000. For a hosted provider, supply its model and key; omit `MALMM_BASE_URL` to use the client's default endpoint. Existing shell environment variables take precedence over `.env`.
-
-For OpenRouter, set `MALMM_BASE_URL=https://openrouter.ai/api/v1` and use its full model ID, such as `openai/gpt-4-turbo`. Set `MALMM_API_KEY` to an OpenRouter key. A valid key can still require credits or be subject to provider rate limits.
-
-Before launching the simulator, configure its location:
+Set the simulator paths before running evaluation:
 
 ```bash
 export COPPELIASIM_ROOT=/path/to/CoppeliaSim
@@ -36,61 +37,101 @@ export LD_LIBRARY_PATH="$COPPELIASIM_ROOT:${LD_LIBRARY_PATH:-}"
 export QT_QPA_PLATFORM_PLUGIN_PATH="$COPPELIASIM_ROOT"
 ```
 
-## Run
+The `.ttm` task models are included in `malmm/assets/`. RLBench and PyRep are still
+required to load them and run the robot. Headless execution also needs a working
+graphics/display setup; see [RLBench's headless guide](https://github.com/stepjam/RLBench#running-headless).
+
+### 3. Configure the model API
 
 ```bash
-python -m malmm --list-tasks
-python -m malmm --task put_rubbish_in_bin --episodes 1
-python -m malmm --task close_jar --episodes 25 --seed 0 --headless
+cp .env.example .env
 ```
 
-The `malmm` command is equivalent to `python -m malmm`. Use `--model`, `--base-url`, `--max-rounds`, `--max-actions`, and `--output-dir` to override run settings. Each episode permits 60 attempted robot actions and has a separate 300-message conversation cap by default. Headless simulation still requires a working graphics/display setup; see the RLBench instructions.
+Edit `.env` with your API key and an OpenAI-compatible endpoint. For example:
 
-The task list contains 40 saved scene-object mappings. Tasks and scene names must match the installed RLBench version; these mappings are not a claim that every task has been validated. Runs save conversation histories and episode outcomes under `outputs/<task>/<run>/`. Success comes from RLBench's task success condition, independently of the agent's completion message.
+```dotenv
+MALMM_API_KEY=your-key-here
+MALMM_BASE_URL=https://openrouter.ai/api/v1
+```
 
-Generated Python runs in the local process with the robot API, as in the original method. It is not sandboxed.
+Select a model supported by that endpoint with `--model`. Shell environment
+variables take precedence over `.env`; `--base-url` overrides `MALMM_BASE_URL`.
+`OPENAI_API_KEY` is also accepted when `MALMM_API_KEY` is not set.
 
-### Parallel evaluation
+## Evaluation
 
-Check all nine evaluation task scenes and two seeded resets per task with four simulator processes:
+
+**Evaluate one task:**
 
 ```bash
-python -m malmm.evaluate --check-only --workers 4 --episodes 2
+python evaluate.py \
+  --tasks meat_off_grill \
+  --episodes 5 \
+  --seed 0 \
+  --workers 1 \
+  --model openai/gpt-6-luna
 ```
 
-Run the same task set with a model:
+**Evaluate all nine tasks:**
 
 ```bash
-python -m malmm.evaluate --workers 4 --episodes 2 --model openai/gpt-6-luna --env-file .env
+python evaluate.py --tasks all --episodes 4 --workers 4 --model openai/gpt-6-luna
 ```
 
-Each task runs in a fresh process with its own output directory and a default 30-minute timeout. JSON and CSV summaries distinguish completed task failures from API errors, timeouts, and missing episodes. Per-episode results include token usage across the agents. The `slide_block_to_target` task is the saved code's mapping for the paper's “Put Block” column. Two trials per task form a pilot evaluation, not the paper's 25-trial protocol.
-
-## Code
-
-| Path | Purpose |
-| --- | --- |
-| `malmm/agents.py` | Planner, coder, executor agent, and supervisor routing |
-| `malmm/executor.py` | Python execution and scene feedback |
-| `malmm/robot.py` | RLBench lifecycle, scene descriptions, and manipulation primitives |
-| `malmm/runner.py` | Independent episodes, conversation histories, and outcomes |
-| `malmm/prompts/{planner,coder,task}.py` | Role prompts and initial task formatting |
-| `malmm/task_objects.json` | Original object mappings, labels, and colors |
-| `malmm/cli.py` | Command-line options and model configuration |
-
-The method is extracted from the saved `Desktop/main_code` project, using its March 5, 2025 multi-agent entry point. `SOURCE.json` records the original source file hashes. Scene-object mappings are preserved, with the tray-label spelling corrected; planner and coder prompts have been updated to describe the corrected robot interface. The refactor adds explicit simulator startup/shutdown, configurable tasks and endpoints, independent episode histories, and execution-state feedback. These controller and prompt changes mean new evaluations are not an exact reproduction of the original implementation. Simulation, models, datasets, experiment outputs, baselines, and training code are kept outside this repository.
-
-Positions, yaw, and bounding-box limits use world coordinates. The motion API passes yaw directly to the simulator. `execute_trajectory(position, yaw, interaction=True)` permits contact during grasp descent and initial lift, matching RLBench reference interaction waypoints. Transit and placement retain collision checking. Existing arm contacts and Empty Container's nonphysical sampling helper are temporarily excluded during planning; their collision flags are restored before execution, and contact physics remains enabled.
-
-Gripping follows the reference controller's full-close command and reports an unsuccessful sensor grasp as an error. A motion that stops more than 1.5 cm short reports an error, except for a contact approach with a graspable object already detected by the gripper sensor. That case reports the shortfall and detected objects; closing still verifies the requested target. Feedback includes the held-object bottom offset. Destination selection and placement assessment use the instruction and scene geometry; policy observations do not include internal target identities, per-item success detectors, or a task-success Boolean. Release poses account for that offset; physics settles for ten steps after opening. All motion steps run RLBench scene/task updates. Completion requires simulator success; Empty Container also requires a released gripper. Unsuccessful completion requests continue the episode. `abort_task(reason)` records an unsuccessful stop separately, and action-budget exhaustion also aborts. The executor automatically requests completion after a successful action when the task condition is satisfied. Episode records include action counts, abort reasons, and stopping reasons.
-
-## Checks
+**Evaluate a subset:**
 
 ```bash
-python -m pip install -e '.[dev]'
-python -m pytest
-ruff check .
-ruff format --check .
+python evaluate.py --tasks close_jar stack_blocks --episodes 3 --seed 10 --workers 2
 ```
 
-The checks exercise agent routing, robot-code execution, error feedback, prompt formatting, and configuration without a model server or simulator. Full RLBench runs require the external simulator setup.
+### Arguments
+
+| Argument | Default | Description |
+| --- | --- | --- |
+| `--tasks NAME [NAME ...]` | `all` | One or more task names, or `all`. |
+| `--episodes N` | `4` | Episodes per task. |
+| `--seed N` | `0` | First episode seed; must be nonnegative. |
+| `--workers N` | `4` | Maximum number of parallel task processes. |
+| `--model ID` | `openai/gpt-6-luna` | Model identifier accepted by the provider. |
+| `--base-url URL` | Environment / provider default | Override the model API endpoint. |
+| `--env-file PATH` | Repository `.env` | Read provider settings from this file. |
+| `--output-dir PATH` | Repository `outputs/evaluations` | Parent directory for timestamped runs. |
+| `--max-actions N` | `60` | Robot actions allowed per episode. |
+| `--max-messages N` | `300` | Group-chat messages allowed per episode. |
+| `--task-timeout N` | `3600` | Seconds allowed for all episodes of one task. |
+| `--headless` / `--no-headless` | Headless | Hide or display the simulator window. |
+
+## Repository layout
+
+```text
+evaluate.py           Command-line evaluation and parallel task workers
+requirements.txt      Python dependencies
+.env.example          Example provider configuration
+outputs/              Evaluation output directory; empty in the source release
+malmm/
+  agents.py           Agent definitions and Supervisor routing
+  executor.py         Generated-code execution and feedback
+  robot.py            Simulator observations and robot actions
+  bounding_box.py     World bounding boxes
+  runner.py           Episode execution and logging
+  tasks.py            Configuration loading
+  tasks.json          Task objects, color names, and instruction configuration
+  prompts/            Planner, Coder, and initial Supervisor prompt
+  assets/             Nine task models
+```
+
+## Citation
+
+If you use MALMM in your research, please cite:
+
+```bibtex
+@misc{singh2024malmm,
+  title={MALMM: Multi-Agent Large Language Models for Zero-Shot Robotics Manipulation},
+  author={Harsh Singh and Rocktim Jyoti Das and Mingfei Han and Preslav Nakov and Ivan Laptev},
+  year={2024},
+  eprint={2411.17636},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2411.17636}
+}
+```

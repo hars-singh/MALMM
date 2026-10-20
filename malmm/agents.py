@@ -43,7 +43,7 @@ class ExecutorAgent(autogen.ConversableAgent):
 
 @dataclass
 class AgentTeam:
-    coordinator: autogen.ConversableAgent
+    initiator: autogen.ConversableAgent
     planner: autogen.ConversableAgent
     coder: autogen.AssistantAgent
     executor: ExecutorAgent
@@ -51,11 +51,12 @@ class AgentTeam:
     conversation: autogen.GroupChat
 
     def run(self, prompt: str):
-        return self.coordinator.initiate_chat(self.supervisor, message=prompt)
+        self.supervisor.update_system_message(prompt)
+        return self.initiator.initiate_chat(self.supervisor, message=prompt)
 
     def token_usage(self) -> dict:
         usage = gather_usage_summary(
-            [self.coordinator, self.planner, self.coder, self.executor, self.supervisor]
+            [self.initiator, self.planner, self.coder, self.executor, self.supervisor]
         )["usage_excluding_cached_inference"]
         return {
             model: {
@@ -73,11 +74,13 @@ def create_agent_team(robot, llm_config: dict | bool, max_rounds: int = 300) -> 
         human_input_mode="NEVER",
         is_termination_msg=lambda _: episode_finished(robot),
     )
-    coordinator = autogen.ConversableAgent(
-        name="Coordinator",
-        system_message="Give the task and instruct the planner to execute it using the robot end effector.",
+    initiator = autogen.ConversableAgent(
+        name="Initiator",
+        system_message="Submit the task and initial scene to the supervisor.",
         code_execution_config=False,
-        **common,
+        llm_config=False,
+        human_input_mode="NEVER",
+        is_termination_msg=lambda _: episode_finished(robot),
     )
     planner = autogen.ConversableAgent(
         name="Planner",
@@ -94,11 +97,11 @@ def create_agent_team(robot, llm_config: dict | bool, max_rounds: int = 300) -> 
     )
     executor = ExecutorAgent(robot)
     conversation = autogen.GroupChat(
-        agents=[coordinator, coder, executor, planner],
+        agents=[initiator, coder, executor, planner],
         messages=[],
         max_round=max_rounds,
         allowed_or_disallowed_speaker_transitions={
-            coordinator: [planner],
+            initiator: [planner],
             planner: [coder],
             coder: [executor],
             executor: [coder, planner],
@@ -112,4 +115,4 @@ def create_agent_team(robot, llm_config: dict | bool, max_rounds: int = 300) -> 
         human_input_mode="NEVER",
         is_termination_msg=lambda _: episode_finished(robot),
     )
-    return AgentTeam(coordinator, planner, coder, executor, supervisor, conversation)
+    return AgentTeam(initiator, planner, coder, executor, supervisor, conversation)

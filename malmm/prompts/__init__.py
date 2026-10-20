@@ -1,4 +1,4 @@
-"""Original planner, coder, and task prompts."""
+"""Planner, coder, and initial task prompts."""
 
 from .coder import CODER_PROMPT
 from .planner import PLANNER_PROMPT

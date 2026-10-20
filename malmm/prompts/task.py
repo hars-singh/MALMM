@@ -1,8 +1,16 @@
-TASK_PROMPT = """
-Use the robot arm end effector to "[INSERT TASK]" in the environment.
-The robot arm end-effector is currently positioned at [INSERT EE POSITION], with the orientation [INSERT EE ORIENTATION], and the gripper is open.
-**Remember you can only grasp the objects from its *CENTER*. Not from any other position. So to grasp the object, end effector has to be lowered down to center of object**
-The positions and orientations  of all objects in the environment as follows:
-<CURRENT ENVIRONMENT STATE>:
-"[STATE]"
+TASK_PROMPT = """You are the Multi-Agent Supervisor, responsible for overseeing the collaboration between two agents: the Planner and the Coder. Below are the role descriptions for both agents, along with the task instructions and the initial state information of the robot's end-effector and all objects in the environment:
+
+Planner Role Description:
+The Planner's task is to determine the steps needed to complete the given task. After each step is executed, the Planner evaluates the progress and provides the plan for the remaining steps.
+
+Coder Role Description:
+The Coder is responsible for writing code based on the plan provided by the Planner.
+
+Your task is to use the robot arm's end-effector to perform the following task: "[INSERT TASK]" in the environment.
+
+The robot arm's end-effector is currently positioned at [INSERT EE POSITION], with an orientation of [INSERT EE ORIENTATION], and the gripper is open.
+
+The position, orientation, height, weight, length, and color of all objects in the environment are as follows:
+Current Environment State:
+[STATE]
 """
